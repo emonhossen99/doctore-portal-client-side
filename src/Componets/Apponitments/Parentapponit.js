@@ -1,23 +1,22 @@
 import { format } from 'date-fns';
 import React from 'react';
-import { useEffect } from 'react';
 import { useState } from 'react';
+import { useQuery } from 'react-query';
+import Loading from '../Shered/Loading/Loading';
 import Booking from './Booking';
 import Bookingmodal from './Bookingmodal';
 
 const Parentapponit = ({ date }) => {
 
-    const [services, setServices] = useState([])
     const [treatment,setTreatment] = useState(null)
+    const formattedDate = format(date, 'PP')
 
-    useEffect(() => {
-
-        const url = `http://localhost:5000/services`
-        fetch(url)
-            .then(res => res.json())
-            .then(data => setServices(data))
-
-    }, [])
+    const {data : services,isLoading,refetch} = useQuery(['available',formattedDate], () => fetch(`http://localhost:5000/available?date=${formattedDate}`)
+    .then(res => res.json())
+    )
+    if(isLoading){
+        return <Loading></Loading>
+    }
 
     return (
         <div>
@@ -36,6 +35,7 @@ const Parentapponit = ({ date }) => {
                  treatment={treatment}
                   date={date}
                   setTreatment={setTreatment}
+                  refetch={refetch}
                   ></Bookingmodal>
             }
         </div>

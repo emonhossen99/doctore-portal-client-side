@@ -1,66 +1,81 @@
-import React from 'react';
-import auth from '../../firebase.init';
-import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import { React, useEffect } from 'react';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import Loading from '../Shered/Loading/Loading';
-import { useRef, useEffect } from 'react';
+import auth from '../../../firebase.init';
+import Loading from '../../Shered/Loading/Loading';
+import useToken from '../../../hooks/MyToken';
 
-const Login = () => {
-    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+const SingUp = () => {
     const location = useLocation();
     const navigate = useNavigate()
-    const emailRef = useRef()
-    const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(
-        auth
-    );
-
     const [
-        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
         user,
         loading,
         error,
-    ] = useSignInWithEmailAndPassword(auth);
-    const { register, formState: { errors }, handleSubmit, getValues } = useForm();
-    const onSubmit = data => {
-        signInWithEmailAndPassword(data.email, data.password)
-    };
+    ] = useCreateUserWithEmailAndPassword(auth);
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+    const [updateProfile, updating, upError] = useUpdateProfile(auth);
     let from = location.state?.from?.pathname || "/";
 
+    const { register, formState: { errors }, handleSubmit } = useForm();
+    const onSubmit = async data => {
+        await createUserWithEmailAndPassword(data.email, data.password)
+        await updateProfile({ displayName: data.name });
+    };
+    const [token] = useToken(user || gUser)
     useEffect(() => {
-        if (user || gUser) {
+        if (token) {
             navigate(from, { replace: true });
         }
     }, [user,gUser,from,navigate])
-    if (loading || gLoading || sending) {
+
+    if (loading || gLoading || updating) {
         return <Loading></Loading>
     }
     let errorElement;
-    if (error || gError || resetError) {
+    if (error || gError || upError) {
         errorElement = <p className='text-red-500'>{error?.message || gError?.message}
         </p>
     }
 
 
-    const handleResetPassword = () => {
-        const email = getValues("email");
-        sendPasswordResetEmail(email)
-        alert('send Email Reification')
-    }
+
     return (
         <div className='flex h-full justify-center items-center'>
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="text-center font-bold text-lg text-primary">LogIn</h2>
+                    <h2 className="text-center font-bold text-lg text-primary">Sing Up</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
 
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Name : </span>
+                            </label>
+                            <input
+                                type="name"
+                                placeholder="Enter Name"
+                                className="input input-bordered w-full max-w-xs"
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: 'name is required'
+                                    },
+                                })}
+                            />
+
+                            <label className="label">
+
+                                {errors.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
+                            </label>
+                        </div>
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
-                                ref={emailRef}
                                 placeholder="Enter Email"
                                 className="input input-bordered w-full max-w-xs"
                                 {...register("email", {
@@ -107,18 +122,15 @@ const Login = () => {
                                 {errors.password?.type === 'minLength' && <span className="label-text-alt text-red-500">{errors.password.message}</span>}
                             </label>
                         </div>
-                        <p>
-                            Reset Password ??
-                            <button onClick={handleResetPassword} className="text-primary mb-3 bg-none">Reset Pass..</button>
-                        </p>
-                        {errorElement}
-                        <input type="submit" className="btn btn-outline btn-success w-full max-w-xs " value='LogIn' />
+                        {
+                            errorElement
+                        }
+                        <input type="submit" className="btn btn-outline btn-success w-full max-w-xs " value='Sing Up' />
                     </form>
                     <p>
-                        New To DocTors Portal ??
-                        <Link className='text-primary mx-2' to='/singup'>Sing Up</Link>
+                        Already Have A Account??
+                        <Link className='text-primary mx-2' to='/login'>Log In</Link>
                     </p>
-
                     <div className="divider">OR</div>
                     <button onClick={() => signInWithGoogle()} className="btn btn-outline btn-secondary">Continue To Google</button>
                 </div>
@@ -127,4 +139,4 @@ const Login = () => {
     );
 };
 
-export default Login; 
+export default SingUp;
