@@ -4,7 +4,7 @@ const UsersTable = ({ patient,refetch }) => {
     const { email, _id,role } = patient
 
     const makeAdmit = () => {
-        fetch(`http://localhost:5000/user/admit/${email}`, {
+        fetch(`https://morning-wave-20718.herokuapp.com/user/admit/${email}`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

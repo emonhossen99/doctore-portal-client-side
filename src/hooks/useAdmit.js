@@ -7,7 +7,7 @@ const useAdmit = user => {
    useEffect( () => {
       const email = user?.email;
       if(email){
-          fetch(`http://localhost:5000/admit/${email}`, {
+          fetch(`https://morning-wave-20718.herokuapp.com/admit/${email}`, {
           method: 'GET',
           headers: {
             'content-type' : 'application/json',

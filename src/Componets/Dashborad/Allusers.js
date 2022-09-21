@@ -5,7 +5,7 @@ import UsersTable from './UsersTable';
 const Allusers = () => {
 
 
-const {data : users,isLoading,refetch} = useQuery('users', () =>  fetch(`http://localhost:5000/users`,{
+const {data : users,isLoading,refetch} = useQuery('users', () =>  fetch(`https://morning-wave-20718.herokuapp.com/users`,{
     method : 'GET',
     headers: {
         authorization: `Bearer ${localStorage.getItem('accessToken')}`
