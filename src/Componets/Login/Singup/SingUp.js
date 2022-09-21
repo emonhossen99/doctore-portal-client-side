@@ -26,10 +26,11 @@ const SingUp = () => {
     };
     const [token] = useToken(user || gUser)
     useEffect(() => {
-        if (token) {
+        if(token){
             navigate(from, { replace: true });
         }
-    }, [user,gUser,from,navigate])
+    }, [token,from,navigate])
+    
 
     if (loading || gLoading || updating) {
         return <Loading></Loading>

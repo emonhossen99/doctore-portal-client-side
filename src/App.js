@@ -2,14 +2,17 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import About from './Componets/About/About';
 import Apponitments from './Componets/Apponitments/Apponitments';
+import Allusers from './Componets/Dashborad/Allusers';
 import Dashborad from './Componets/Dashborad/Dashborad';
 import MyAppointment from './Componets/Dashborad/MyAppointment';
+import MyHistory from './Componets/Dashborad/MyHistory';
 import MyReview from './Componets/Dashborad/MyReview';
 import Contact from './Componets/Home/Contact/Contact';
 import Home from './Componets/Home/Home/Home';
 import Login from './Componets/Login/Login';
 import SingUp from './Componets/Login/Singup/SingUp';
 import RequireAuth from './Componets/RequireAuth/RequireAuth';
+import RequireAdmit from './Componets/RequireAuth/RequireAdmit';
 import Review from './Componets/Review/Review';
 import Header from './Componets/Shered/Header/Header';
 // import { ToastContainer, toast } from 'react-toastify';
@@ -34,6 +37,10 @@ function App() {
         }>
           <Route index element={<MyAppointment></MyAppointment>}></Route>
           <Route path='review' element={<MyReview></MyReview>}></Route>
+          <Route path='myhistory' element={<MyHistory></MyHistory>}></Route>
+          <Route path='allusers' element={<RequireAdmit>
+            <Allusers></Allusers>
+            </RequireAdmit>}></Route>
         </Route>
         <Route path='/review' element={<Review></Review>}></Route>
         <Route path='/contact' element={<Contact></Contact>}></Route>

@@ -4,7 +4,7 @@ import Mybutton from '../../Shered/MyButton/Mybutton';
 
 const Dental = () => {
     return (
-        <div className="hero min-h-screen">
+        <div className="hero min-h-screen mb-20">
             <div className="hero-content flex-col lg:flex-row ">
                 <img src={treatment} className="h-48 w-full object-cover md:h-full md:w-48 lg:h-full lg:w-[400px] shadow-2xl " />
                 <div>

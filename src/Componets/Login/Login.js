@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Loading from '../Shered/Loading/Loading';
 import { useRef, useEffect } from 'react';
+import useToken from '../../hooks/MyToken';
 
 const Login = () => {
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -25,13 +26,14 @@ const Login = () => {
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password)
     };
+    const [token] = useToken(user || gUser)
     let from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (user || gUser) {
+        if (token) {
             navigate(from, { replace: true });
         }
-    }, [user,gUser,from,navigate])
+    }, [token,from,navigate])
     if (loading || gLoading || sending) {
         return <Loading></Loading>
     }
