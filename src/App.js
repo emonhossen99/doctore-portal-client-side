@@ -7,6 +7,7 @@ import Dashborad from './Componets/Dashborad/Dashborad';
 import MyAppointment from './Componets/Dashborad/MyAppointment';
 import MyHistory from './Componets/Dashborad/MyHistory';
 import MyReview from './Componets/Dashborad/MyReview';
+import AddDoctor from './Componets/Dashborad/AddDoctor';
 import Contact from './Componets/Home/Contact/Contact';
 import Home from './Componets/Home/Home/Home';
 import Login from './Componets/Login/Login';
@@ -15,6 +16,7 @@ import RequireAuth from './Componets/RequireAuth/RequireAuth';
 import RequireAdmit from './Componets/RequireAuth/RequireAdmit';
 import Review from './Componets/Review/Review';
 import Header from './Componets/Shered/Header/Header';
+import ManegeDoctor from './Componets/Dashborad/ManegeDoctor';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,6 +42,12 @@ function App() {
           <Route path='myhistory' element={<MyHistory></MyHistory>}></Route>
           <Route path='allusers' element={<RequireAdmit>
             <Allusers></Allusers>
+            </RequireAdmit>}></Route>
+          <Route path='adddoctor' element={<RequireAdmit>
+            <AddDoctor></AddDoctor>
+            </RequireAdmit>}></Route>
+          <Route path='manegedoctor' element={<RequireAdmit>
+            <ManegeDoctor></ManegeDoctor>
             </RequireAdmit>}></Route>
         </Route>
         <Route path='/review' element={<Review></Review>}></Route>

@@ -23,7 +23,11 @@ const Dashborad = () => {
                     <li><Link to='/dashborad'>MyAppointment</Link></li>
                     <li><Link to='/dashborad/review'>MyReview</Link></li>
                     <li><Link to='/dashborad/myhistory'>MyHistory</Link></li>
-                    {admit && <li><Link to='/dashborad/allusers'>All Users</Link></li>}
+                    {admit && <>
+                        <li><Link to='/dashborad/allusers'>All Users</Link></li>
+                        <li><Link to='/dashborad/adddoctor'>Add Doctor</Link></li>
+                        <li><Link to='/dashborad/manegedoctor'>Mange Doctor</Link></li>
+                    </>}
                 </ul>
 
             </div>
